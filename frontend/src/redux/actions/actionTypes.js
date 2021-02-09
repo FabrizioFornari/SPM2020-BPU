@@ -1,0 +1,7 @@
+export const MODAL_OPEN = 'MODAL_OPEN'
+export const MODAL_CLOSE = 'MODAL_CLOSE'
+export const MODAL_STARTDATE = 'MODAL_STARTDATE'
+export const MODAL_ENDDATE = 'MODAL_ENDDATE'
+export const MODAL_COST = 'MODAL_COST'
+export const MENU_KEY = 'MENU_KEY'
+export const MARKER_DATA='MARKER_DATA'

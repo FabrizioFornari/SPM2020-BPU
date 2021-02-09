@@ -1,0 +1,40 @@
+  .hero {
+    align-items: center;
+    justify-content: center;
+}
+
+.hero::before {    
+      content: "";
+      background-image: url("../../assets/images/parking-bg.jpg");
+      background-size: cover;
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      bottom: 0px;
+      left: 0px;
+      opacity: 0.5;
+}
+
+.login-form {
+    max-width: 300px;
+  }
+  .login-form-forgot {
+    float: right;
+  }
+  .ant-col-rtl .login-form-forgot {
+    float: left;
+  }
+  .login-form-button {
+    width: 100%;
+  }
+
+  .site-page-header-ghost-wrapper {
+    background-color: #f5f5f5;
+    padding: 24px;
+  }
+
+  .ant-divider-horizontal.ant-divider-with-text-center::before,
+  .ant-divider-horizontal.ant-divider-with-text-center::after
+  {
+     border-top: 1px solid red !important;
+  }

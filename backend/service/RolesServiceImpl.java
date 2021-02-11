@@ -15,4 +15,5 @@ public class RolesServiceImpl implements RolesService{
     public Roles getRolesByName(String name) {
         return rolesRepository.findByRoleName(name);
     }
+    
 }

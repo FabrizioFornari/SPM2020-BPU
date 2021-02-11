@@ -5,4 +5,5 @@ import org.springframework.stereotype.Service;
 
 public interface RolesService {
     public Roles getRolesByName(String name);
+    
 }

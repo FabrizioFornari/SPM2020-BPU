@@ -2,7 +2,7 @@
 
 The aim and purpose is to scale down an efficient working model of a vehicle parking system for accommodating vehicles within a limited area. The goal is to provide better security and reliability with an advanced vehicle parking system
 
-About the Project
+**About the Project**
 
 This application is designed to show the available spaces in the parking lot by dynamically monitoring it and consist of a admin login to maintain the entry and exit of the vehicles
 

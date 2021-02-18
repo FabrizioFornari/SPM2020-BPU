@@ -14,6 +14,11 @@ Postgresql
 
 **Installation**
 
+nodejs
+intelij
+postgresql
+
+
 **Project Team**
 
 **About the Project**

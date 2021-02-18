@@ -14,8 +14,8 @@ Postgresql
 
 **Installation**
 
-nodejs
-intelij
+nodejs,
+intelij,
 postgresql
 
 

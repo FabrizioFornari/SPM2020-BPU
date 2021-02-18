@@ -8,10 +8,8 @@ This application is designed to show the available spaces in the parking lot by 
 
 **Technologies**
 
-Javascript
-
-Java
-
+Javascript,
+Java,
 Postgresql
 
 **Installation**

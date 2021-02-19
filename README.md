@@ -1,4 +1,4 @@
-**Smart Parking**
+**Easy Park**
 
 The aim and purpose is to scale down an efficient working model of a vehicle parking system for accommodating vehicles within a limited area. The goal is to provide better security and reliability with an advanced vehicle parking system
 

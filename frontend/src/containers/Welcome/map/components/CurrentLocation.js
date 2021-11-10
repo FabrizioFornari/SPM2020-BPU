@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { store } from "../../../..//redux/store";
+import * as actions from "../../../../redux/actions/index"
 
 const mapStyles = {
     map: {
@@ -45,6 +47,8 @@ export class CurrentLocation extends React.Component {
         const google = this.props.google;
         const maps = google.maps;
 
+        store.dispatch(actions.setCurrentLocationAC(current));
+
         if (map) {
             let center = new maps.LatLng(current.lat, current.lng);
             map.panTo(center);
@@ -63,6 +67,7 @@ export class CurrentLocation extends React.Component {
                             lng: coords.longitude
                         }
                     });
+                    store.dispatch(actions.setCurrentLocationAC(this.state.currentLocation));
                 });
             }
         }
@@ -125,7 +130,7 @@ export class CurrentLocation extends React.Component {
             <div>
                 <div style={style} ref="map">
                     Loading map...
-            </div>
+                </div>
                 {this.renderChildren()}
             </div>
         );
@@ -136,12 +141,12 @@ export class CurrentLocation extends React.Component {
 
 
 CurrentLocation.defaultProps = {
-    zoom: 7,
+    zoom: 9,
     initialCenter: {
         lat: -1.2884,
         lng: 36.8233
     },
-    centerAroundCurrentLocation: false,
+    centerAroundCurrentLocation: true,
     visible: true
 };
 

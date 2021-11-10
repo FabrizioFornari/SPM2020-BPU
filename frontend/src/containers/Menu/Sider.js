@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import 'antd/dist/antd.css';
-import { Menu, Avatar, Divider } from 'antd';
+import { Menu, Avatar, Divider, Badge } from 'antd';
 import {
     ToolOutlined,
     LogoutOutlined,
@@ -9,11 +9,11 @@ import {
     GoogleOutlined,
     CarryOutOutlined,
     ProfileOutlined,
-    InfoOutlined
+    NotificationOutlined
 } from '@ant-design/icons';
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { Link } from 'react-router-dom'
-import { IsUsersAccessPermit } from '../../utils/utils'
+import { IsUsersAccessPermit, IsParkingViolationsAccessPermit } from '../../utils/utils'
 import * as actions from "../../redux/actions/index"
 import { useSelector, useDispatch } from 'react-redux'
 import styled from "@xstyled/styled-components";
@@ -24,10 +24,11 @@ export const Sider = () => {
 
     const userData = useStoreState((state) => state.users.userData)
     const isUsersAccessPermit = IsUsersAccessPermit(userData.roles)
+    const isParkingViolationsAccessPermit = IsParkingViolationsAccessPermit(userData.roles)
     const { logOutUser } = useStoreActions(actions => ({
         logOutUser: actions.users.logOutUser
     }));
-
+    const reservationsStore = useStoreState((state) => state.reservations);
     const modalData = useSelector((state) => state.modalMarker);
 
 
@@ -49,7 +50,7 @@ export const Sider = () => {
                 theme={"dark"}
                 onClick={handleClick}
                 style={{ width: 230, height: "100vh", position: "fixed" }}
-                defaultOpenKeys={(modalData.selectedKeys==="4" || modalData.selectedKeys==="5")?['sub1']:[""]}
+                defaultOpenKeys={(modalData.selectedKeys === "4" || modalData.selectedKeys === "5") ? ['sub1'] : [""]}
                 selectedKeys={[modalData.selectedKeys]}
                 mode="inline"
             >
@@ -71,14 +72,31 @@ export const Sider = () => {
                     <Link to="/home">Home</Link>
                 </Menu.Item>
 
+                <Menu.Item key="9" icon={<NotificationOutlined />}>
+                    <Link to="/messages">
+                        <Badge count={reservationsStore.nrParkingViolations}>
+                            <div style={{ color: "#fff", marginRight: 13 }} >Messages</div>
+                        </Badge>
+                    </Link>
+                </Menu.Item>
+
                 <Menu.Item key="2" icon={<CarryOutOutlined />}>
                     <Link to="/reservation">Reservations</Link>
                 </Menu.Item>
 
                 {isUsersAccessPermit &&
-                    <Menu.Item key="3" icon={<ToolOutlined />}>
-                        <Link to="/users">Users</Link>
-                    </Menu.Item>}
+                <Menu.Item key="3" icon={<ToolOutlined />}>
+                    <Link to="/users">Users</Link>
+                </Menu.Item>}
+
+                {isParkingViolationsAccessPermit &&
+                <Menu.Item key="10" icon={<NotificationOutlined />}>
+                    <Link to="/parkingviolations">
+                        <Badge count={reservationsStore.nrOfAllParkingViolations}>
+                            <div style={{ color: "#fff", marginRight: 13 }} >Parking Violations</div>
+                        </Badge>
+                    </Link>
+                </Menu.Item>}
 
                 {isUsersAccessPermit ?
 
@@ -88,9 +106,9 @@ export const Sider = () => {
                     </SubMenu>
                     :
                     <Menu.Item key="6" icon={<GoogleOutlined />}>
-                    <Link to="/map">Maps</Link>
-                </Menu.Item>
-                    }
+                        <Link to="/map">Maps</Link>
+                    </Menu.Item>
+                }
 
 
 

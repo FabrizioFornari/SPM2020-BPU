@@ -114,13 +114,13 @@ export const TableSection = ({ usersStore }) => {
       width: '13%',
       render: () => <Avatar
           style={{
-              backgroundColor: '#596fff',
-              display: "block",
-              
+            backgroundColor: '#596fff',
+            display: "block",
+
           }}
           icon={<UserOutlined />}
       />
-  },
+    },
     {
       title: 'Name',
       dataIndex: 'name',
@@ -141,28 +141,28 @@ export const TableSection = ({ usersStore }) => {
       key: 'roles',
       dataIndex: 'roles',
       render: roles => (
-        <>
-          {roles.map(role => {
-            let color;
-            if (role === 'Driver') {
-              color = '#0000ff';
-            }
-            if (role === 'Municipality') {
-              color = '#339966';
-            }
-            if (role === 'Policeman') {
-              color = 'red';
-            }
-            if (role === '"Tow Truck"') {
-              color = 'geekblue';
-            }
-            return (
-              <Tag color={color} key={role}>
-                {role.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
+          <>
+            {roles.map(role => {
+              let color;
+              if (role === 'Driver') {
+                color = '#0000ff';
+              }
+              if (role === 'Municipality') {
+                color = '#339966';
+              }
+              if (role === 'Policeman') {
+                color = 'red';
+              }
+              if (role === '"Tow Truck"') {
+                color = 'geekblue';
+              }
+              return (
+                  <Tag color={color} key={role}>
+                    {role.toUpperCase()}
+                  </Tag>
+              );
+            })}
+          </>
       ),
     },
     {
@@ -170,112 +170,112 @@ export const TableSection = ({ usersStore }) => {
       key: 'id',
       dataIndex: 'id',
       render: (text, record) => (
-        <a onClick={() => showModal(record)}>Edit</a>
+          <a onClick={() => showModal(record)}>Edit</a>
       ),
     },
   ];
 
   return (
-    <div>
-      <StyledTable
-        columns={columns}
-        dataSource={usersStore}
-      />
-      <Modal title="Basic Modal" visible={isModalVisible} onCancel={handleCancel} footer={null}>
-        <Form  {...formItemLayout} fields={fields} onFinish={onFinish}>
-          <Form.Item
-            name="name"
-            label="Name"
-            rules={[
-              {
-                required: true,
-                message: 'Username is required!',
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="surname"
-            label="Surname"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="email"
-            label="Email"
-            rules={[
-              {
-                type: 'email',
-              },
-            ]}
-          >
-            <Input disabled />
-          </Form.Item>
+      <div>
+        <StyledTable
+            columns={columns}
+            dataSource={usersStore}
+        />
+        <Modal title="Basic Modal" visible={isModalVisible} onCancel={handleCancel} footer={null}>
+          <Form  {...formItemLayout} fields={fields} onFinish={onFinish}>
+            <Form.Item
+                name="name"
+                label="Name"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Username is required!',
+                  },
+                ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+                name="surname"
+                label="Surname"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+                name="email"
+                label="Email"
+                rules={[
+                  {
+                    type: 'email',
+                  },
+                ]}
+            >
+              <Input disabled />
+            </Form.Item>
 
-          <Form.Item name="checkboxgroup" label="Roles">
-            <Checkbox.Group>
-              <Row>
-                <Col >
-                  <Checkbox
-                    value="Municipality"
-                    style={{
-                      lineHeight: '32px',
-                    }}
-                  >
-                    Municipality
-              </Checkbox>
-                </Col>
+            <Form.Item name="checkboxgroup" label="Roles">
+              <Checkbox.Group>
+                <Row>
+                  <Col >
+                    <Checkbox
+                        value="Municipality"
+                        style={{
+                          lineHeight: '32px',
+                        }}
+                    >
+                      Municipality
+                    </Checkbox>
+                  </Col>
 
-                <Col span={8}>
-                  <Checkbox
-                    value="Driver"
-                    style={{
-                      lineHeight: '32px',
-                    }}
-                  >
-                    Driver
-              </Checkbox>
-                </Col>
-                <Col span={8}>
-                  <Checkbox
-                    value="Tow Truck"
-                    style={{
-                      lineHeight: '32px',
-                    }}
-                  >
-                    Tow Truck
-              </Checkbox>
-                </Col>
+                  <Col span={8}>
+                    <Checkbox
+                        value="Driver"
+                        style={{
+                          lineHeight: '32px',
+                        }}
+                    >
+                      Driver
+                    </Checkbox>
+                  </Col>
+                  <Col span={8}>
+                    <Checkbox
+                        value="Tow Truck"
+                        style={{
+                          lineHeight: '32px',
+                        }}
+                    >
+                      Tow Truck
+                    </Checkbox>
+                  </Col>
 
-                <Col span={8}>
-                  <Checkbox
-                    value="Policeman"
-                    style={{
-                      lineHeight: '32px',
-                    }}
-                  >
-                    Policeman
-              </Checkbox>
-                </Col>
-              </Row>
-            </Checkbox.Group>
-          </Form.Item>
+                  <Col span={8}>
+                    <Checkbox
+                        value="Policeman"
+                        style={{
+                          lineHeight: '32px',
+                        }}
+                    >
+                      Policeman
+                    </Checkbox>
+                  </Col>
+                </Row>
+              </Checkbox.Group>
+            </Form.Item>
 
 
-          <Form.Item>
-            <Button type="primary" htmlType="submit" style={{float: "right", marginRight: -160}}>
-              Save
-        </Button>
-          </Form.Item>
-        </Form>
-      </Modal>
-    </div>
+            <Form.Item>
+              <Button type="primary" htmlType="submit" style={{float: "right", marginRight: -160}}>
+                Save
+              </Button>
+            </Form.Item>
+          </Form>
+        </Modal>
+      </div>
 
   );
 };

@@ -25,13 +25,13 @@ class Home extends React.Component {
         return (
             <div className="hero" style={{ marginTop: 100, height: 300}}>
                 <Card title={<StyledTitle level={2}><CarOutlined /> Easy Park</StyledTitle>} bordered={false}
-                    style={{
-                        width: 791, height: 528, backgroundColor: '#14a7ac', border: 0,
-                        opacity: '0.82', borderRadius: '30px', margin: "auto"
+                      style={{
+                          width: 791, height: 528, backgroundColor: '#14a7ac', border: 0,
+                          opacity: '0.82', borderRadius: '30px', margin: "auto"
 
-                    }}
-                    headStyle={{ border: 0 }}
-                    bodyStyle={{ border: 0 }}
+                      }}
+                      headStyle={{ border: 0 }}
+                      bodyStyle={{ border: 0 }}
                 >
                     <StyledDiv>
                         <StyledP> <StyledButton onClick={this.routeChangeSignUp}>Sign Up</StyledButton></StyledP>

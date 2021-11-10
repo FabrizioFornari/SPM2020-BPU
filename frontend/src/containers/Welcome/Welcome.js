@@ -1,6 +1,6 @@
 import React,{useEffect} from 'react';
 import { Card } from 'antd';
-import { useStoreState } from "easy-peasy";
+import { useStoreState, useStoreActions } from "easy-peasy";
 import 'antd/dist/antd.css';
 import styled from "@xstyled/styled-components";
 import { Sider } from "..//Menu/Sider";
@@ -11,15 +11,21 @@ import { Calendar, Divider } from 'antd';
 export const Welcome = () => {
 
     const userData = useStoreState((state) => state.users.userData)
+    const fetchNrOfParkingViolations = useStoreActions((actions) => actions.reservations.fetchNrOfParkingViolations);
+    const fetchNrOfAllParkingViolations = useStoreActions((actions) => actions.reservations.fetchNrOfAllParkingViolations);
     const dispatch = useDispatch();
 
-    
+    useEffect(() => {
+        dispatch(actions.markerFetchDataAC());
+    }, []);
 
     useEffect(() => {
-		dispatch(actions.markerFetchDataAC());
+        fetchNrOfParkingViolations(userData.email);
     }, []);
-    
 
+    useEffect(() => {
+        fetchNrOfAllParkingViolations();
+    }, []);
 
     return (
         <div className="hero">
@@ -27,12 +33,12 @@ export const Welcome = () => {
             <div style={{width: "100%", display: "table"}}>
                 <div style={{display: "table-row"}}>
                     <div style={{width: 256, display: "table-cell"}}> <Sider style={{height: 710, opacity: 40 }}/> </div>
-                    <div style={{display: "table-cell"}}> 
-                    <StyledCard>
-                        <h1 style={{ textAlign: "center" }}>Welcome, {userData.name} {userData.lastName}</h1>
-                        <Divider />
-                        <Calendar fullscreen={false} style={{ margin: "auto", width: "50%" }}/>
-                    </StyledCard> 
+                    <div style={{display: "table-cell"}}>
+                        <StyledCard>
+                            <h1 style={{ textAlign: "center" }}>Welcome, {userData.name} {userData.lastName}</h1>
+                            <Divider />
+                            <Calendar fullscreen={false} style={{ margin: "auto", width: "50%" }}/>
+                        </StyledCard>
                     </div>
                 </div>
             </div>
@@ -42,7 +48,6 @@ export const Welcome = () => {
 
     );
 };
-
 
 const StyledCard = styled(Card)`
     width: 50%;

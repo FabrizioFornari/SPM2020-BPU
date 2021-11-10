@@ -9,3 +9,7 @@ export const IsReservationsAccessPermit = (roles) => {
 export const IsAccessPermit = (roles) => {
     return roles.includes(1) || roles.includes(2) || roles.includes(3) || roles.includes(4)
 }
+
+export const IsParkingViolationsAccessPermit = (roles) => {
+    return roles.includes(1) || roles.includes(2)
+}

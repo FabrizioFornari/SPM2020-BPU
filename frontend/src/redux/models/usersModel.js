@@ -5,7 +5,7 @@ export const usersModel = {
   loading: false,
   login: false,
   saved: false,
-  userData: [],
+  userData: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : [],
   usersData: [],
   setLoading: action((state, payload) => {
     state.loading = payload;
@@ -57,6 +57,7 @@ export const usersModel = {
     if (response.status === 200) {
       console.log("status 200")
       await actions.populateUserData(response.data);
+      localStorage.setItem("user", JSON.stringify(response.data));
       await actions.setLogin(true);
     }
   }),
@@ -71,7 +72,8 @@ export const usersModel = {
 
   logOutUser: thunk(async (actions, userData) => {
     console.log("logOutUser: thunk(as")
-      await actions.deleteUserData();
+    await actions.deleteUserData();
+    localStorage.removeItem("user");
   }),
 };
 

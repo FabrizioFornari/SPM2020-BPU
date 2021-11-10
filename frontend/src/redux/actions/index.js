@@ -9,6 +9,7 @@ export {
     markerFetchDataAC,
     markerEditDataAC,
     markerAddAC,
-    markerDeleteAC
+    markerDeleteAC,
+    setCurrentLocationAC
 }
     from './modalAC'

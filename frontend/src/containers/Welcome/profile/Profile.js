@@ -244,7 +244,7 @@ export const Profile = () => {
                                         <Form.Item>
                                             <Button type="primary" htmlType="submit" style={{ float: "right", marginRight: -160 }}>
                                                 Update
-                                    </Button>
+                                            </Button>
                                         </Form.Item>
                                     </Form>
                                 </TabPane>

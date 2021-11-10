@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Tag, Modal, Form, Input, Button, DatePicker, Space, Popconfirm } from 'antd';
+import { Table, Tag, Modal, Form, Input, Button, DatePicker, Space, Popconfirm, Row, Col } from 'antd';
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { useSelector, useDispatch } from 'react-redux'
 import styled from "@xstyled/styled-components";
 import moment from 'moment';
 import * as actions from "../../../../redux/actions/index"
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined, LoginOutlined, LogoutOutlined } from '@ant-design/icons';
 
 const formItemLayout = {
     labelCol: {
@@ -33,6 +33,12 @@ export const TableSection = ({ reservationsStore }) => {
     const fetchResevations = useStoreActions((actions) => actions.reservations.fetchReservations);
     const editReservation = useStoreActions((actions) => actions.reservations.editReservation);
     const deleteReservation = useStoreActions((actions) => actions.reservations.deleteReservation);
+    const enter = useStoreActions((actions) => actions.reservations.enter);
+    const exit = useStoreActions((actions) => actions.reservations.exit);
+    const userData = useStoreState((state) => state.users.userData)
+    const fetchNrOfParkingViolations = useStoreActions((actions) => actions.reservations.fetchNrOfParkingViolations);
+
+
     const modalData = useSelector((state) => state.modalMarker);
 
     const [parkingLot, setParkingLot] = useState("Basic Modal");
@@ -41,7 +47,11 @@ export const TableSection = ({ reservationsStore }) => {
     const [form] = Form.useForm();
 
     useEffect(() => {
-        fetchResevations();
+        fetchResevations(userData.email);
+    }, []);
+
+    useEffect(() => {
+        fetchNrOfParkingViolations(userData.email);
     }, []);
 
 
@@ -55,7 +65,7 @@ export const TableSection = ({ reservationsStore }) => {
         form.setFieldsValue({ endDate: moment.utc(reservationInfo.endDate) });
         form.setFieldsValue({ cost: reservationInfo.cost });
         form.setFieldsValue({ id: reservationInfo.id });
-        setParkingLot( reservationInfo.parkingLot)
+        setParkingLot(reservationInfo.parkingLot)
 
         dispatch(actions.modalchangeStartDateAC(moment.utc(reservationInfo.startDate)))
         dispatch(actions.modalchangeEndDateAC(moment.utc(reservationInfo.endDate)))
@@ -121,6 +131,34 @@ export const TableSection = ({ reservationsStore }) => {
         return current && current < modalData.startDate.endOf('day');
     }
 
+    const onEnter = (reservationInfo) => {
+        console.log("doEnter")
+
+        const reservationData = {
+            id: reservationInfo.id,
+            date: moment(),
+            email: reservationInfo.email,
+        };
+
+        enter(reservationData);
+        console.log(reservationData)
+    };
+
+
+    const onExit = (reservationInfo) => {
+
+        const reservationData = {
+            id: reservationInfo.id,
+            date: moment(),
+            email: reservationInfo.email,
+        };
+
+        exit(reservationData);
+        console.log(reservationData)
+    };
+
+
+
     const columns = [
         {
             title: 'Full Name',
@@ -133,14 +171,22 @@ export const TableSection = ({ reservationsStore }) => {
             key: 'parkingLot',
         },
         {
-            title: 'From',
+            title: 'Parking Check-In',
             dataIndex: 'startDate',
-            key: 'startDate',
+            render: (text, record) => (
+                <div>
+                    {moment(text).format('MMMM Do YYYY, h:mm a')}
+                </div>
+            ),
         },
         {
-            title: 'To',
+            title: 'Parking Check-Out',
             dataIndex: 'endDate',
-            key: 'endDate',
+            render: (text, record) => (
+                <div>
+                    {moment(text).format('MMMM Do YYYY, h:mm a')}
+                </div>
+            ),
         },
         {
             title: 'Cost',
@@ -148,16 +194,58 @@ export const TableSection = ({ reservationsStore }) => {
             key: 'cost',
         },
         {
+            title: 'Enter',
+            dataIndex: 'enterDate',
+            render: (text, record) => (
+                <div>
+                    {text === null ?
+                        <CloseOutlined />
+                        :
+                        <CheckOutlined />
+                    }
+                </div>
+            ),
+        },
+        {
+            title: 'Exit',
+            dataIndex: 'exitDate',
+            render: (text, record) => (
+                <div>
+                    {text === null ?
+                        <CloseOutlined />
+                        :
+                        <CheckOutlined />
+                    }
+                </div>
+            ),
+        },
+        {
             title: 'Action',
             key: 'id',
             dataIndex: 'id',
             render: (text, record) => (
-                <Space size="middle">
-                    <a onClick={() => showModal(record)}><EditOutlined /></a>
-                    <Popconfirm title="Sure to delete?" onConfirm={() => onDelete(record)}>
-                    <a ><DeleteOutlined /></a>
-                    </Popconfirm>
-                </Space>
+                <div>
+                    <Row>
+                        <Col span={12}><a onClick={() => showModal(record)}><EditOutlined /></a></Col>
+                        <Col span={12}><Popconfirm title="Sure to delete?" onConfirm={() => onDelete(record)}><a ><DeleteOutlined /></a></Popconfirm></Col>
+                    </Row>
+                    <Row>
+                        <Col span={12}>
+                            {record.enterDate === null ?
+                                <a><span onClick={() => onEnter(record)}><LoginOutlined /></span></a>
+                                :
+                                <a disabled ><span onClick={() => onEnter(record)}><LoginOutlined /></span></a>
+                            }
+                        </Col>
+                        <Col span={12}>
+                            {record.exitDate === null && record.enterDate != null?
+                                <a><span onClick={() => onExit(record)}><LogoutOutlined /></span></a>
+                                :
+                                <a disabled ><span onClick={() => onExit(record)}><LogoutOutlined /></span></a>
+                            }
+                        </Col>
+                    </Row>
+                </div>
             ),
         },
     ];
@@ -166,7 +254,7 @@ export const TableSection = ({ reservationsStore }) => {
         <div>
             <StyledTable
                 columns={columns}
-                dataSource={reservationsStore}
+                dataSource={reservationsStore.reservationsData}
                 loading={reservationsStore.loading}
             />
             <Modal title={parkingLot} visible={isModalVisible} onCancel={handleCancel} footer={null}>
@@ -196,7 +284,7 @@ export const TableSection = ({ reservationsStore }) => {
                     </Form.Item>
                     <Form.Item
                         name="startDate"
-                        label="From"
+                        label="ARRIVAL"
                         rules={[
                             {
                                 required: true,
@@ -208,7 +296,7 @@ export const TableSection = ({ reservationsStore }) => {
 
                     <Form.Item
                         name="endDate"
-                        label="To"
+                        label="DEPARTURE"
                         rules={[
                             {
                                 required: true,
@@ -238,7 +326,7 @@ export const TableSection = ({ reservationsStore }) => {
                     <Form.Item>
                         <Button type="primary" htmlType="submit" style={{ position: "absolute", right: -155 }}>
                             Update
-        </Button>
+                        </Button>
                     </Form.Item>
                 </Form>
             </Modal>

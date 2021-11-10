@@ -52,11 +52,11 @@ export const LogIn = () => {
             />
             <div className="hero">
                 <Row gutter={24}
-                    style={{
-                        width: 791, height: 528, backgroundColor: '#14a7ac', border: 0,
-                        opacity: '0.82', borderRadius: '30px', textAlign: "center", margin: "auto"
+                     style={{
+                         width: 791, height: 528, backgroundColor: '#14a7ac', border: 0,
+                         opacity: '0.82', borderRadius: '30px', textAlign: "center", margin: "auto"
 
-                    }}
+                     }}
                 >
                     <Col span={12}>
                         <div style={{ justifyContent: 'center', alignItems: 'center' }}>

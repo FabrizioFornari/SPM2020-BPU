@@ -40,7 +40,7 @@ export const Parking = () => {
     const showModal = () => {
 
         setIsModalVisible(true);
-        };
+    };
 
     const handleCancel = () => {
         setIsModalVisible(false);
@@ -74,7 +74,7 @@ export const Parking = () => {
                                 <Col span={12}>
                                     <h1>
                                         Parking lot
-                                </h1>
+                                    </h1>
                                 </Col>
                                 <Col span={12}>
                                     <h1 style={{ justifyContent: 'center', alignItems: 'center', size: 50, textAlign: "right" }}>
@@ -140,7 +140,7 @@ export const Parking = () => {
                                 <Form.Item>
                                     <Button type="primary" htmlType="submit" style={{ position: "absolute", right: -155 }}>
                                         Update
-        </Button>
+                                    </Button>
                                 </Form.Item>
                             </Form>
                         </Modal>

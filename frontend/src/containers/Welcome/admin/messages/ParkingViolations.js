@@ -1,14 +1,20 @@
 import React, { useEffect } from 'react';
-import { PageHeader, Button, Card } from 'antd';
+import { Card } from 'antd';
+import { useStoreState, useStoreActions } from "easy-peasy";
 import 'antd/dist/antd.css';
 import styled from "@xstyled/styled-components";
-import { TableSection } from './components/TableSection'
-import { useStoreState, useStoreActions } from "easy-peasy";
-import { Sider } from "..//../Menu/Sider";
+import { Sider } from "../../../Menu/Sider";
+import { TableSection } from "./components/TableSection"
 
-export const Reservations = () => {
+export const ParkingViolations = () => {
 
     const reservationsStore = useStoreState((state) => state.reservations);
+    const updateSeenAdminFine = useStoreActions((actions) => actions.reservations.updateSeenAdminFine);
+
+    useEffect(() => {
+        updateSeenAdminFine();
+    }, []);
+
 
     return (
         <div className="hero">
@@ -18,8 +24,8 @@ export const Reservations = () => {
                     <div style={{ width: 300, display: "table-cell" }}> <Sider style={{ height: 710, opacity: 40 }} /> </div>
                     <div style={{ display: "table-cell" }}>
                         <StyledCard>
-                            <h1>Reservations</h1>
-                            <h3>Here you can update or delete your reservations </h3>
+                            <h1>Parking violation</h1>
+                            <h3> </h3>
                             <TableSection
                                 reservationsStore={reservationsStore}
                             />
@@ -33,10 +39,6 @@ export const Reservations = () => {
     );
 };
 
-
-const StyledPageHeader = styled(PageHeader)`
-    width: 100%;
-`;
 
 const StyledCard = styled(Card)`
     width: 96%;

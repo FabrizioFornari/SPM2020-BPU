@@ -7,7 +7,8 @@ const initialState = {
     endDate: moment(),
     cost: 0,
     selectedKeys: "1",
-    markersData: []
+    markersData: [],
+    currentLocation: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -16,6 +17,8 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 isModalVisible: true,
+                startDate: moment(),
+                endDate: moment(),
             }
         case actionTypes.MODAL_CLOSE:
             return {
@@ -47,6 +50,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 markersData: action.markerData,
+            }
+        case actionTypes.CURRENT_LOCATION:
+            return {
+                ...state,
+                currentLocation: action.currentLocation,
             }
         default:
             return state

@@ -6,8 +6,9 @@ spring:
   datasource:
     url: jdbc:postgresql://127.0.0.1:5432/smartparking
     username: postgres
-    password: camerino22
+    password: 560400
     driver-class-name: org.postgresql.Driver
+    initialization-mode: always
 
   # ===============================
   # = JPA configurations
@@ -28,3 +29,9 @@ logging:
     root: INFO
     com.memorynotfound: INFO
     org.springframework.web: INFO
+
+# ===============================
+# = Server Port
+# ===============================
+server:
+  port: 8081

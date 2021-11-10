@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import static it.unicam.smartparking.utils.SmartParkingConstants.API_BASE_PATH;
 
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = API_BASE_PATH)
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class MarkersController {
 
@@ -18,51 +18,25 @@ public class MarkersController {
     private MarkersService markersService;
 
     @GetMapping(value = "/markers")
-    public ResponseEntity<?> getUsers(){
-        System.out.println("GET Markers is called");
-
-        List<Markers> allMarkers = markersService.getAllMarkers();
-        System.out.println(allMarkers);
-
-        return ResponseEntity.ok(allMarkers);
+    public ResponseEntity<?> getMarkers(){
+        return ResponseEntity.ok(markersService.getAllMarkers());
     }
 
 
     @PutMapping(value = "/updateMarkers")
     public ResponseEntity<?> updateMarkers(@RequestBody Markers markers){
-        System.out.println("updateMarkers is called");
-        System.out.println(markers);
-
-        List<Markers> markersList = markersService.updateMarker(markers);
-        return ResponseEntity.ok(markersList);
+        return ResponseEntity.ok(markersService.updateMarker(markers));
     }
 
     @PostMapping(value = "/addMarkers")
     public ResponseEntity<?> addMarkers(@RequestBody Markers markers){
-        System.out.println("addMarkers is called");
-        System.out.println(markers);
-
-        List<Markers> markersList = markersService.addMarker(markers);
-        return ResponseEntity.ok(markersList);
-    }
-
-    @PostMapping(value = "/deleteMarker/")
-    public ResponseEntity<?> deleteMarkers(@RequestBody Markers markers){
-        System.out.println("addMarkers is called");
-        System.out.println(markers);
-
-        List<Markers> markersList = markersService.addMarker(markers);
-        return ResponseEntity.ok(markersList);
+        return ResponseEntity.ok(markersService.addMarker(markers));
     }
 
     @DeleteMapping(value = "/deleteMarker/{id}")
     public ResponseEntity<?> deleteMarker(@PathVariable Integer id){
-
-        System.out.println("deleteMarker with id");
-        System.out.println(id);
         markersService.deleteMarker(id);
-        return ResponseEntity.ok("User Saved Successfully");
-
+        return ResponseEntity.ok("Marker deleted");
     }
 
 }

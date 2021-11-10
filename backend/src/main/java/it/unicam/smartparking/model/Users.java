@@ -1,8 +1,8 @@
 package it.unicam.smartparking.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -10,7 +10,13 @@ import java.util.Set;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Users {
+
+    public Users(Set<Roles> userRoles) {
+        this.userRoles = userRoles;
+    }
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -28,9 +34,7 @@ public class Users {
 
     //private boolean disabled ;
 
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(name = "\"user_has_roles\"",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))

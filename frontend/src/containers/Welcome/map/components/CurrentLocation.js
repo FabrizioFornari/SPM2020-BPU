@@ -5,14 +5,11 @@ import * as actions from "../../../../redux/actions/index"
 
 const mapStyles = {
     map: {
-        position: 'absolute',
-        width: '60%',
-        height: '80%',
+        width: "80%",
+        height: '520px',
         margin: "auto",
         border: "3px solid green",
         padding: "10px",
-        marginLeft: 140,
-        marginTop: 120,
     }
 };
 
@@ -130,7 +127,7 @@ export class CurrentLocation extends React.Component {
             <div>
                 <div style={style} ref="map">
                     Loading map...
-                </div>
+            </div>
                 {this.renderChildren()}
             </div>
         );

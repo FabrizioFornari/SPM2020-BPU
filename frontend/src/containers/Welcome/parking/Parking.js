@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { PageHeader, Row, Card, Col, Form, Input, Button, Modal, InputNumber} from 'antd';
+import { PageHeader, Row, Card, Col, Form, Input, Button, Modal, InputNumber, Layout} from 'antd';
 import 'antd/dist/antd.css';
 import styled from "@xstyled/styled-components";
 import { TableSection } from './components/TableSection'
-import { Sider } from "..//../Menu/Sider";
+import { SiderMenu } from "..//../Menu/Sider";
 import { useSelector, useDispatch } from 'react-redux'
 import { PlusOutlined } from '@ant-design/icons';
 import * as actions from "../../../redux/actions/index"
 
+const { Header, Content, Footer, Sider } = Layout;
 
 const formItemLayout = {
     labelCol: {
@@ -40,7 +41,7 @@ export const Parking = () => {
     const showModal = () => {
 
         setIsModalVisible(true);
-    };
+        };
 
     const handleCancel = () => {
         setIsModalVisible(false);
@@ -63,18 +64,31 @@ export const Parking = () => {
     };
 
     return (
-        <div className="hero">
-
-            <div style={{ width: "100%", display: "table" }}>
-                <div style={{ display: "table-row" }}>
-                    <div style={{ width: 300, display: "table-cell" }}> <Sider style={{ height: 710, opacity: 40 }} /> </div>
-                    <div style={{ display: "table-cell" }}>
-                        <StyledCard>
+        <Layout>
+      <Sider
+        style={{
+          overflow: 'auto',
+          height: '100vh',
+          position: 'fixed',
+          left: 0,
+        }}
+      >
+        <SiderMenu />
+      </Sider>
+      <Layout className="site-layout" style={{ marginLeft: 200, minHeight: "100vh" }}>
+      <Header className="site-layout-background" style={{ padding: 0 }}>
+        <div style={{textAlign: "center", fontSize: "30px", textTransform: "uppercase"}}>
+        <h1 style={{color: "#1890ff"}}>Easy Park</h1>
+        </div>
+          </Header>
+        <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+          <div className="site-layout-background" style={{ padding: 24, textAlign: 'center' }}>
+          <StyledCard>
                             <Row gutter={24}>
                                 <Col span={12}>
-                                    <h1>
+                                    <h1 style={{ justifyContent: 'center', alignItems: 'center', size: 50, textAlign: "right" }}>
                                         Parking lot
-                                    </h1>
+                                </h1>
                                 </Col>
                                 <Col span={12}>
                                     <h1 style={{ justifyContent: 'center', alignItems: 'center', size: 50, textAlign: "right" }}>
@@ -140,16 +154,15 @@ export const Parking = () => {
                                 <Form.Item>
                                     <Button type="primary" htmlType="submit" style={{ position: "absolute", right: -155 }}>
                                         Update
-                                    </Button>
+                       </Button>
                                 </Form.Item>
                             </Form>
                         </Modal>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
+          </div>
+        </Content>
+        <Footer style={{marginTop: '22px', textAlign: 'center',backgroundColor: "white" }}>Copyrights ©2021 - All rights reserved</Footer>
+      </Layout>
+    </Layout>
     );
 };
 
@@ -160,5 +173,4 @@ const StyledPageHeader = styled(PageHeader)`
 
 const StyledCard = styled(Card)`
     width: 96%;
-    margin-top: 140px;
 `;

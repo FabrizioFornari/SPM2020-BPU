@@ -1,6 +1,6 @@
 import axios from "axios";
 import {message } from "antd"
-
+  
 const axiosInstance = {
   users: axios.create({
     baseURL: "http://localhost:8081/api",
@@ -17,19 +17,44 @@ const axiosInstance = {
 };
 
 axiosInstance.users.interceptors.request.use(
-    (request) => {
-      return request;
-    },
-    (error) => {
-      // console.log("error interceptor", error);
-    }
+  (request) => {
+    const storedData = localStorage.getItem('user');
+     if (storedData) 
+     {
+      request.headers.common['jwt_token'] = JSON.parse(localStorage.getItem('user')).token;
+     }
+    return request;
+  },
+  (error) => {
+    // console.log("error interceptor", error);
+  }
+);
+
+axiosInstance.reservations.interceptors.request.use(
+  (request) => {
+    request.headers.common['jwt_token'] = JSON.parse(localStorage.getItem('user')).token;
+    return request;
+  },
+  (error) => {
+    // console.log("error interceptor", error);
+  }
+);
+
+axiosInstance.markers.interceptors.request.use(
+  (request) => {
+    request.headers.common['jwt_token'] = JSON.parse(localStorage.getItem('user')).token;
+    return request;
+  },
+  (error) => {
+    // console.log("error interceptor", error);
+  }
 );
 
 export const usersAPI = {
 
   async getUsersData() {
     try {
-      const response = await axiosInstance.users.get(`/users`);
+      const response = await axiosInstance.users.get(`/admin/users`);
       return { data: response.data, status: response.status };
     } catch (e) {
       // console.log("response error enter", e);
@@ -39,7 +64,7 @@ export const usersAPI = {
 
   async saveUser(userData) {
     try {
-      const response = await axiosInstance.users.post(`/save`, userData);
+      const response = await axiosInstance.users.post(`/admin/save`, userData);
       message.success("User saved!")
       return { data: response.data, status: response.status };
     } catch (e) {
@@ -106,7 +131,6 @@ export const usersAPI = {
       message.success("Log in done!")
       return { data: response.data, status: response.status };
     } catch (e) {
-      console.log(e.response.status);
       if (e.response.status === 404) {
         message.error("Wrong Email or password. Please check your data and try again later!")
       }
@@ -123,7 +147,7 @@ export const usersAPI = {
 };
 
 export const reservationsAPI = {
-
+  
   async getReservationsData(email) {
     try {
       const response = await axiosInstance.reservations.get(`/reservations/${email}`);
@@ -260,7 +284,7 @@ export const reservationsAPI = {
 
   async updateSeenAdminFine() {
     try {
-      const response = await axiosInstance.reservations.put(`/updateSeenAdminFine`);
+      const response = await axiosInstance.reservations.put(`/admin/updateSeenAdminFine`);
       return { data: response.data, status: response.status };
     } catch (e) {
 
@@ -273,7 +297,7 @@ export const reservationsAPI = {
 
   async getAllParkingViolationsData() {
     try {
-      const response = await axiosInstance.reservations.get(`/allParkingViolations`);
+      const response = await axiosInstance.reservations.get(`/admin/allParkingViolations`);
       return { data: response.data, status: response.status };
     } catch (e) {
       // console.log("response error enter", e);
@@ -283,10 +307,32 @@ export const reservationsAPI = {
 
   async getNrOfAllParkingViolations() {
     try {
-      const response = await axiosInstance.reservations.get(`/nrOfAllParkingViolations`);
+      const response = await axiosInstance.reservations.get(`/admin/nrOfAllParkingViolations`);
       return { data: response.data, status: response.status };
     } catch (e) {
       // console.log("response error enter", e);
+      return { Messages: "Server non risponde. Prova più tardi" };
+    }
+  },
+
+  async deleteParkingViolation(parkingViolationId) {
+    try {
+      const response = await axiosInstance.reservations.delete(`/admin/deleteDriverFine/${parkingViolationId}`);
+      message.success("Parking violaiton deleted!")
+      return response;
+    } catch (e) {
+      message.error("An error occurred. Please try again later!")
+      return { Messages: "Server non risponde. Prova più tardi" };
+    }
+  },
+
+  async updateParkingViolation(parkingViolationData) {
+    try {
+      const response = await axiosInstance.reservations.put(`/admin/updateDriverFine`, parkingViolationData);
+      message.success("Parking violaiton updated!")
+      return response;
+    } catch (e) {
+      message.error("An error occurred. Please try again later!")
       return { Messages: "Server non risponde. Prova più tardi" };
     }
   },
@@ -297,7 +343,7 @@ export const reservationsAPI = {
 
 
 export const maerkersAPI = {
-
+  
   async getMarkersData() {
     try {
       const response = await axiosInstance.markers.get(`/markers`);

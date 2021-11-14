@@ -5,6 +5,8 @@ import styled from "@xstyled/styled-components";
 import "antd/dist/antd.css";
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import * as actions from "../../redux/actions/index"
+import {  useDispatch } from 'react-redux'
 
 
 export const LogIn = () => {
@@ -15,6 +17,11 @@ export const LogIn = () => {
     useEffect(() => {
         forceUpdate({});
     }, []);
+
+    const dispatch = useDispatch();
+
+    const fetchNrOfAllParkingViolations = useStoreActions((actions) => actions.reservations.fetchNrOfAllParkingViolations);
+
 
 
     const usersStore = useStoreState((state) => state.users);
@@ -32,8 +39,9 @@ export const LogIn = () => {
             password: values.password,
         };
 
+        dispatch(actions.menuChangeKeyAC("1"))
         await checkUser(userData)
-
+        fetchNrOfAllParkingViolations()
         console.log("userData", userData)
         console.log("usersStore.userData: ", usersStore.userData)
 
@@ -52,11 +60,11 @@ export const LogIn = () => {
             />
             <div className="hero">
                 <Row gutter={24}
-                     style={{
-                         width: 791, height: 528, backgroundColor: '#14a7ac', border: 0,
-                         opacity: '0.82', borderRadius: '30px', textAlign: "center", margin: "auto"
+                    style={{
+                        width: 791, height: 528, backgroundColor: '#14a7ac', border: 0,
+                        opacity: '0.82', borderRadius: '30px', textAlign: "center", margin: "auto"
 
-                     }}
+                    }}
                 >
                     <Col span={12}>
                         <div style={{ justifyContent: 'center', alignItems: 'center' }}>

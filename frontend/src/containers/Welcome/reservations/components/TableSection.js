@@ -38,11 +38,9 @@ export const TableSection = ({ reservationsStore }) => {
     const userData = useStoreState((state) => state.users.userData)
     const fetchNrOfParkingViolations = useStoreActions((actions) => actions.reservations.fetchNrOfParkingViolations);
 
-
     const modalData = useSelector((state) => state.modalMarker);
 
     const [parkingLot, setParkingLot] = useState("Basic Modal");
-
 
     const [form] = Form.useForm();
 
@@ -75,8 +73,12 @@ export const TableSection = ({ reservationsStore }) => {
     };
 
     const onDelete = (reservationInfo) => {
+        const reservationData = {
+            id: reservationInfo.id,
+            email: userData.email,
+        };
 
-        deleteReservation(reservationInfo.id)
+        deleteReservation(reservationData)
 
         console.log("Delete reservation with id")
         console.log(reservationInfo.id)
@@ -326,7 +328,7 @@ export const TableSection = ({ reservationsStore }) => {
                     <Form.Item>
                         <Button type="primary" htmlType="submit" style={{ position: "absolute", right: -155 }}>
                             Update
-                        </Button>
+        </Button>
                     </Form.Item>
                 </Form>
             </Modal>

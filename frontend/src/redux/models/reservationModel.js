@@ -53,9 +53,10 @@ export const reservationModel = {
 
     }
   }),
-  deleteReservation: thunk(async (actions, id) => {
-    const deletionFeedback = await reservationsAPI.deleteReservation(id);
+  deleteReservation: thunk(async (actions, reservationData) => {
+    const deletionFeedback = await reservationsAPI.deleteReservation(reservationData.id);
     if (deletionFeedback.status === 200) {
+      await actions.fetchReservations(reservationData.email)
     }
   }),
 
@@ -128,6 +129,20 @@ export const reservationModel = {
     const response = await reservationsAPI.getNrOfAllParkingViolations();
     if (response.status === 200) {
       await actions.setNrOfAllParkingViolations(response.data);
+    }
+  }),
+
+  deleteParkingViolation: thunk(async (actions, id) => {
+    const deletionFeedback = await reservationsAPI.deleteParkingViolation(id);
+    if (deletionFeedback.status === 200) {
+      await actions.fetchAllParkingViolationsData();
+    }
+  }),
+
+  updateParkingViolation: thunk(async (actions, parkingViolationData) => {
+    const deletionFeedback = await reservationsAPI.updateParkingViolation(parkingViolationData);
+    if (deletionFeedback.status === 200) {
+      await actions.fetchAllParkingViolationsData();
     }
   }),
 

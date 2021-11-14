@@ -179,87 +179,87 @@ export const ParkingModal = ({ parkingName, initialStartDate, initialEndDate, pa
 
 
   return (
-      <div>
-        <Modal title={parkingName} visible={modalData.isModalVisible} onCancel={handleCancel} footer={null} >
-          <Form {...formItemLayout} form={form} name="basic" fields={fields} onFinish={onFinish}>
-            <Form.Item
-                name="name"
-                label="Full Name"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Username is required!',
-                  },
-                ]}
-            >
-              <Input disabled />
-            </Form.Item>
-            <Form.Item
-                name="email"
-                label="Email"
-                rules={[
-                  {
-                    type: 'email',
-                  },
-                ]}
-            >
-              <Input disabled />
-            </Form.Item>
-            <Form.Item
-                name="startDate"
-                label="From"
-                rules={[
-                  {
-                    required: true,
-                  },
-                ]}
-            >
-              <DatePicker
-                  showTime={{
-                    format: "HH:mm"
-                  }}
-                  onChange={onChangeStartDate}
-                  disabledDate={disabledStartDate}
-              />
-            </Form.Item>
+    <div>
+      <Modal title={parkingName} visible={modalData.isModalVisible} onCancel={handleCancel} footer={null} >
+        <Form {...formItemLayout} form={form} name="basic" fields={fields} onFinish={onFinish}>
+          <Form.Item
+            name="name"
+            label="Full Name"
+            rules={[
+              {
+                required: true,
+                message: 'Username is required!',
+              },
+            ]}
+          >
+            <Input disabled />
+          </Form.Item>
+          <Form.Item
+            name="email"
+            label="Email"
+            rules={[
+              {
+                type: 'email',
+              },
+            ]}
+          >
+            <Input disabled />
+          </Form.Item>
+          <Form.Item
+            name="startDate"
+            label="From"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <DatePicker
+              showTime={{
+                format: "HH:mm"
+              }}
+              onChange={onChangeStartDate}
+              disabledDate={disabledStartDate}
+            />
+          </Form.Item>
 
-            <Form.Item
-                name="endDate"
-                label="To"
-                rules={[
-                  {
-                    required: true,
-                  },
-                ]}
-            >
-              <DatePicker
-                  showTime={{
-                    format: "HH:mm"
-                  }}
-                  onChange={onChangeEndDate}
-                  disabledDate={disabledEndDate}
+          <Form.Item
+            name="endDate"
+            label="To"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <DatePicker
+              showTime={{
+                format: "HH:mm"
+              }}
+              onChange={onChangeEndDate}
+              disabledDate={disabledEndDate}
 
-              />
-            </Form.Item>
-            <Form.Item
-                name="cost"
-                label="Cost"
-                rules={[
-                  {
-                    required: true,
-                  },
-                ]}
-            >
-              <Input disabled />
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit" style={{ position: "absolute", right: -155 }}>
-                Reserve Parking
-              </Button>
-            </Form.Item>
-          </Form>
-        </Modal>
-      </div>
+            />
+          </Form.Item>
+          <Form.Item
+            name="cost"
+            label="Cost"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input disabled />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" style={{ position: "absolute", right: -155 }}>
+              Reserve Parking
+        </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+    </div>
 
   );
 };

@@ -59,9 +59,9 @@ export const markerFetchDataAC = () => {
     return async dispatch => {
         const response = await markersAPI.getMarkersData()
         // console.log('response from getUserRole', response)
-        if (response.status === 200) {
+		if (response.status === 200) {
             dispatch(setMarkersAC(response.data))
-        }
+		}
     }
 }
 
@@ -71,10 +71,10 @@ export const markerEditDataAC = (markerData) => {
     return async dispatch => {
         const response = await markersAPI.updateMarkersData(markerData)
         // console.log('response from getUserRole', response)
-        if (response.status === 200) {
+		if (response.status === 200) {
             message.success("Parking lot updated!")
             dispatch(setMarkersAC(response.data))
-        }
+		}
     }
 }
 
@@ -83,10 +83,10 @@ export const markerAddAC = (markerData) => {
     return async dispatch => {
         const response = await markersAPI.addMarkersData(markerData)
         // console.log('response from getUserRole', response)
-        if (response.status === 200) {
+		if (response.status === 200) {
             message.success("Parking lot added!")
             dispatch(setMarkersAC(response.data))
-        }
+		}
     }
 }
 
@@ -96,10 +96,10 @@ export const markerDeleteAC = (markerId) => {
     return async dispatch => {
         const response = await markersAPI.deleteMarker(markerId)
         // console.log('response from getUserRole', response)
-        if (response.status === 200) {
+		if (response.status === 200) {
             message.success("Parking lot deleted!")
             dispatch(markerFetchDataAC())
-        }
+		}
     }
 }
 

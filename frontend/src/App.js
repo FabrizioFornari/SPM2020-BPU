@@ -11,8 +11,8 @@ import {Parking} from './containers/Welcome/parking/Parking'
 import {Profile} from './containers/Welcome/profile/Profile'
 import { useStoreState } from "easy-peasy";
 import { useSelector } from 'react-redux'
-
-
+import { Messages } from "./containers/Welcome/messages/Messages";
+import { ParkingViolations } from "./containers/Welcome/admin/messages/ParkingViolations";
 const App = () => {
 
   const userData = useStoreState((state) => state.users.userData)
@@ -22,10 +22,12 @@ const App = () => {
     <Switch>
       <Route path="/home" exact component={Welcome} />
       <Route path="/users" exact component={Users} />
+      <Route path="/parkingviolations" exact component={ParkingViolations} />
       <Route path="/reservation" exact component={Reservations} />
       <Route path="/map" exact component={Maps} />
       <Route path="/parking" exact component={Parking} />
       <Route path="/profile" exact component={Profile} />
+      <Route path="/messages" exact component={Messages} />
       <Redirect to={"/home"} />
     </Switch>
   );

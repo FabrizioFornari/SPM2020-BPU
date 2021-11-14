@@ -1,14 +1,15 @@
 import * as axios from 'axios'
 
-const baseURL = "http://localhost:8080/api"
+const baseURL = "http://localhost:8081/api"
 
 const axiosInstance = axios.create({
     baseURL
 })
 
-axiosInstance.interceptors.request.use(request => {
-    // console.log('request: ',request.method +' '+ request.baseURL + request.url, request.data)
-    return request
+axiosInstance.interceptors.request.use(
+    request => {
+    request.headers.common['jwt_token'] = JSON.parse(localStorage.getItem('user')).token;
+    return request;
 }, error => {
     // console.log('error interceptor', error)
 })
@@ -29,7 +30,7 @@ export const markersAPI = {
     async updateMarkersData(markerData) {
         try {
             const response = await axiosInstance.put(
-                `/updateMarkers`, markerData
+                `/admin/updateMarkers`, markerData
             )
             return response
         } catch (e) {
@@ -41,7 +42,7 @@ export const markersAPI = {
     async addMarkersData(markerData) {
         try {
             const response = await axiosInstance.post(
-                `/addMarkers`, markerData
+                `/admin/addMarkers`, markerData
             )
             return response
         } catch (e) {
@@ -53,7 +54,7 @@ export const markersAPI = {
     async deleteMarker(markerId) {
         try {
             const response = await axiosInstance.delete(
-                `/deleteMarker/${markerId}`
+                `/admin/deleteMarker/${markerId}`
             )
             return response
         } catch (e) {

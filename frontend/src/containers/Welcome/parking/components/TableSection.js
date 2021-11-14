@@ -175,7 +175,7 @@ export const TableSection = ({ modalStore }) => {
                     <Form.Item>
                         <Button type="primary" htmlType="submit" style={{ position: "absolute", right: -155 }}>
                             Update
-                        </Button>
+        </Button>
                     </Form.Item>
                 </Form>
             </Modal>

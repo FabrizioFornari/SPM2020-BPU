@@ -30,6 +30,8 @@ const formItemLayout = {
 export const TableSection = ({ reservationsStore }) => {
 
     const fetchAllParkingViolationsData = useStoreActions((actions) => actions.reservations.fetchAllParkingViolationsData);
+    const deleteParkingViolation = useStoreActions((actions) => actions.reservations.deleteParkingViolation);
+    const updateParkingViolation = useStoreActions((actions) => actions.reservations.updateParkingViolation);
     const userData = useStoreState((state) => state.users.userData)
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [form] = Form.useForm();
@@ -51,8 +53,8 @@ export const TableSection = ({ reservationsStore }) => {
         setIsModalVisible(true);
     }
 
-    const onDelete = () => {
-
+    const onDelete = (ParkingViolationInfo) => {
+        deleteParkingViolation(ParkingViolationInfo.id)
     }
 
     const handleCancel = () =>{
@@ -60,7 +62,8 @@ export const TableSection = ({ reservationsStore }) => {
     }
 
     const onFinish = (formData) =>{
-
+        updateParkingViolation(formData)
+        setIsModalVisible(false);
     }
 
 

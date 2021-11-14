@@ -16,11 +16,10 @@ import { Link } from 'react-router-dom'
 import { IsUsersAccessPermit, IsParkingViolationsAccessPermit } from '../../utils/utils'
 import * as actions from "../../redux/actions/index"
 import { useSelector, useDispatch } from 'react-redux'
-import styled from "@xstyled/styled-components";
 
 const { SubMenu } = Menu;
 
-export const Sider = () => {
+export const SiderMenu = () => {
 
     const userData = useStoreState((state) => state.users.userData)
     const isUsersAccessPermit = IsUsersAccessPermit(userData.roles)
@@ -49,7 +48,6 @@ export const Sider = () => {
             <Menu
                 theme={"dark"}
                 onClick={handleClick}
-                style={{ width: 230, height: "100vh", position: "fixed" }}
                 defaultOpenKeys={(modalData.selectedKeys === "4" || modalData.selectedKeys === "5") ? ['sub1'] : [""]}
                 selectedKeys={[modalData.selectedKeys]}
                 mode="inline"
@@ -85,18 +83,18 @@ export const Sider = () => {
                 </Menu.Item>
 
                 {isUsersAccessPermit &&
-                <Menu.Item key="3" icon={<ToolOutlined />}>
-                    <Link to="/users">Users</Link>
-                </Menu.Item>}
+                    <Menu.Item key="3" icon={<ToolOutlined />}>
+                        <Link to="/users">Users</Link>
+                    </Menu.Item>}
 
                 {isParkingViolationsAccessPermit &&
-                <Menu.Item key="10" icon={<NotificationOutlined />}>
-                    <Link to="/parkingviolations">
-                        <Badge count={reservationsStore.nrOfAllParkingViolations}>
+                    <Menu.Item key="10" icon={<NotificationOutlined />}>
+                        <Link to="/parkingviolations">
+                            <Badge count={reservationsStore.nrOfAllParkingViolations}>
                             <div style={{ color: "#fff", marginRight: 13 }} >Parking Violations</div>
                         </Badge>
-                    </Link>
-                </Menu.Item>}
+                            </Link>
+                    </Menu.Item>}
 
                 {isUsersAccessPermit ?
 

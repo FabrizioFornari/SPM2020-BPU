@@ -82,17 +82,17 @@ export const SignUp = () => {
             />
             <div className="hero">
                 <Row gutter={24}
-                     style={{
-                         width: 791, height: 528, backgroundColor: '#14a7ac', border: 0,
-                         opacity: '0.82', borderRadius: '30px', textAlign: "center", margin: "auto"
+                    style={{
+                        width: 791, height: 528, backgroundColor: '#14a7ac', border: 0,
+                        opacity: '0.82', borderRadius: '30px', textAlign: "center", margin: "auto"
 
-                     }}
+                    }}
                 >
                     <Col span={12}>
                         <div style={{ justifyContent: 'center', alignItems: 'center' }}>
                             <StyledP>Let's get you set up</StyledP>
                             <p>It should only take a cople of
-                                minutes to create your account
+                            minutes to create your account
                             </p>
                         </div>
                     </Col>
@@ -199,7 +199,7 @@ export const SignUp = () => {
                                 <Form.Item {...tailFormItemLayout}>
                                     <StyledButton type="primary" htmlType="submit">
                                         Register
-                                    </StyledButton>
+                                     </StyledButton>
                                     <br></br>Or <Link to="/login">login now!</Link>
                                 </Form.Item>
                             </Form>

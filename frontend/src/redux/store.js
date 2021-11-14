@@ -7,6 +7,6 @@ const storeModel = {
     modalMarker: reducer(modalReducer),
     users: usersModel,
     reservations: reservationModel,
-};
-
-export const store = createStore(storeModel);
+  };
+  
+  export const store = createStore(storeModel);

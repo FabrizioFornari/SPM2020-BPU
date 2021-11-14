@@ -58,6 +58,7 @@ export const usersModel = {
       console.log("status 200")
       await actions.populateUserData(response.data);
       localStorage.setItem("user", JSON.stringify(response.data));
+      localStorage.setItem("token", JSON.stringify(response.data).token);
       await actions.setLogin(true);
     }
   }),
@@ -72,8 +73,8 @@ export const usersModel = {
 
   logOutUser: thunk(async (actions, userData) => {
     console.log("logOutUser: thunk(as")
-    await actions.deleteUserData();
-    localStorage.removeItem("user");
+      await actions.deleteUserData();
+      localStorage.removeItem("user");
   }),
 };
 

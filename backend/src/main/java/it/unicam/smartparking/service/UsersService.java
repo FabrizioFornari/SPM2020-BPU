@@ -1,5 +1,6 @@
 package it.unicam.smartparking.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import it.unicam.smartparking.dto.LoginUserDto;
 import it.unicam.smartparking.dto.UserDto;
 import it.unicam.smartparking.dto.UsersDto;
@@ -7,6 +8,7 @@ import it.unicam.smartparking.model.Roles;
 import it.unicam.smartparking.model.Users;
 import it.unicam.smartparking.repository.RolesRepository;
 import it.unicam.smartparking.repository.UsersRepository;
+import it.unicam.smartparking.security.jwt.JwtProvider;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ public class UsersService {
     private RolesRepository rolesRepository;
     @Autowired
     private RolesService rolesService;
+    @Autowired
+    private JwtProvider jwtProvider;
 
 
     public List<UsersDto> getAllUsers() {
@@ -87,7 +91,7 @@ public class UsersService {
     public Users getUserByEmail(String email) {
         return usersRepository.findByEmail(email);
     }
-    public LoginUserDto checkUser(String email, String password) {
+    public LoginUserDto checkUser(String email, String password) throws JsonProcessingException {
         Users user = usersRepository.findByEmailAndPassword(email, password);
         LoginUserDto loginUserDto =  null;
         if (user != null) {
@@ -105,6 +109,7 @@ public class UsersService {
             }
             loginUserDto.setRoles((rolesSet.toArray(new Integer[0])));
             loginUserDto.setRolesString((rolesStringSet.toArray(new String[0])));
+            loginUserDto.setToken(jwtProvider.createJwt(user));
         }
         return loginUserDto;
     }

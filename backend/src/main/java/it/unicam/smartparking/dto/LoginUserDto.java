@@ -5,7 +5,6 @@ import lombok.Data;
 @Data
 public class LoginUserDto {
 
-
     private Integer id;
 
     private String name;
@@ -19,5 +18,7 @@ public class LoginUserDto {
     private Integer[] roles;
 
     private String[] rolesString;
+
+    private String token;
 
 }

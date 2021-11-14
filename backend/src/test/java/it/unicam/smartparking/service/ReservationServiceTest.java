@@ -18,6 +18,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+
 @ExtendWith(SpringExtension.class)
 class ReservationServiceTest {
 
@@ -159,6 +162,29 @@ class ReservationServiceTest {
         Mockito.when(reservationRepository.findAll()).thenReturn(reservationList);
         Mockito.when(fineRepository.findById(Mockito.anyInt())).thenReturn(java.util.Optional.of(fine));
         reservationService.updateSeenAdminFine();
+        Mockito.verify(fineRepository, Mockito.times(1)).save(Mockito.any());
+
+    }
+
+    @Test
+    void deleteDriversFines() {
+        reservationService.deleteDriversFines(3);
+        Mockito.verify(fineRepository, Mockito.times(1)).deleteById(Mockito.any());
+    }
+
+    @Test
+    void shouldNotDeleteDriversFines() {
+        doThrow(new RuntimeException()).when(fineRepository).deleteFineRelationships(Mockito.anyInt());
+        doNothing().when(fineRepository).deleteById(Mockito.anyInt());
+        reservationService.deleteDriversFines(3);
+        Mockito.verify(fineRepository, Mockito.times(1)).deleteById(Mockito.any());
+    }
+
+    @Test
+    void updateDriverFine() {
+
+        Mockito.when(fineRepository.findById(Mockito.anyInt())).thenReturn(java.util.Optional.of(new Fine(1, 10, true, true, "", "")));
+        reservationService.updateDriverFine(1,5);
         Mockito.verify(fineRepository, Mockito.times(1)).save(Mockito.any());
 
     }

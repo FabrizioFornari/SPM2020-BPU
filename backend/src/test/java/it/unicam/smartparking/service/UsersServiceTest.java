@@ -1,5 +1,6 @@
 package it.unicam.smartparking.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import it.unicam.smartparking.dto.LoginUserDto;
 import it.unicam.smartparking.dto.UserDto;
 import it.unicam.smartparking.dto.UsersDto;
@@ -7,6 +8,7 @@ import it.unicam.smartparking.model.Roles;
 import it.unicam.smartparking.model.Users;
 import it.unicam.smartparking.repository.RolesRepository;
 import it.unicam.smartparking.repository.UsersRepository;
+import it.unicam.smartparking.security.jwt.JwtProvider;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,6 +35,8 @@ class UsersServiceTest {
     private RolesRepository rolesRepository;
     @Mock
     private RolesService rolesService;
+    @Mock
+    private JwtProvider jwtProvider;
     @InjectMocks
     private UsersService usersService;
 
@@ -132,11 +136,12 @@ class UsersServiceTest {
     }
 
     @Test
-    void checkUser() {
+    void checkUser() throws JsonProcessingException {
         Roles roleDriver = new Roles(1, "Driver", "Driver",  Collections.emptySet());
         Users user = new Users(1, "Test", "Test", "user1@gmail.com", "123", false, new HashSet<>(List.of(roleDriver)));
         Mockito.when(usersRepository.findByEmailAndPassword(Mockito.anyString(), Mockito.anyString()))
                 .thenReturn(user);
+        Mockito.when(jwtProvider.createJwt(Mockito.any())).thenReturn("");
         LoginUserDto loginUserDto = usersService.checkUser("user1@gmail.com", "123");
         Assertions.assertEquals(user.getUserId(), loginUserDto.getId());
         Assertions.assertEquals(user.getName(), loginUserDto.getName());

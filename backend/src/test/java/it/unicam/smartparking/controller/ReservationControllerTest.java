@@ -4,7 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unicam.smartparking.dto.EnterExitDto;
 import it.unicam.smartparking.dto.UsersDto;
 import it.unicam.smartparking.model.Reservation;
+import it.unicam.smartparking.model.Users;
+import it.unicam.smartparking.security.jwt.JwtProvider;
+import it.unicam.smartparking.security.jwt.JwtUser;
 import it.unicam.smartparking.service.ReservationService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +16,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Set;
+
+import static it.unicam.smartparking.utils.SmartParkingUtilsTest.createJwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -20,20 +29,28 @@ class ReservationControllerTest {
 
     @MockBean
     private ReservationService reservationService;
-
+    @MockBean
+    private JwtProvider jwtProvider;
     @Autowired
     private MockMvc mockMvc;
 
+    @BeforeEach
+    void init() throws IOException {
+        Mockito.when(jwtProvider.getUserInfo(Mockito.any())).thenReturn(new JwtUser("1","test@gmail.com", List.of()));
+    }
+
     @Test
     void getReservations() throws Exception {
-        this.mockMvc.perform(get("/api/reservations"))
+        this.mockMvc.perform(get("/api/reservations")
+                .header("jwt_token", createJwt(new Users(2,"Test","Test","test@gmail.com","password",false, Set.of()))))
                 .andExpect(status().isOk());
         Mockito.verify(reservationService, Mockito.times(1)).getAllReservations();
     }
 
     @Test
     void getReservationsByEmail() throws Exception {
-        this.mockMvc.perform(get("/api/reservations/emailTest"))
+        this.mockMvc.perform(get("/api/reservations/emailTest")
+                .header("jwt_token", createJwt(new Users(2,"Test","Test","test@gmail.com","password",false, Set.of())))                )
                 .andExpect(status().isOk());
         Mockito.verify(reservationService, Mockito.times(1)).getAllReservationsByEmail(Mockito.anyString());
     }
@@ -43,6 +60,7 @@ class ReservationControllerTest {
         Reservation reservation = new Reservation();
         this.mockMvc.perform(post("/api/reservate")
                         .contentType("application/json")
+                        .header("jwt_token", createJwt(new Users(2,"Test","Test","test@gmail.com","password",false, Set.of())))
                         .content(new ObjectMapper().writeValueAsString(reservation)))
                 .andExpect(status().isOk());
         Mockito.verify(reservationService, Mockito.times(1)).saveReservation(Mockito.any());
@@ -53,6 +71,7 @@ class ReservationControllerTest {
         Reservation reservation = new Reservation();
         this.mockMvc.perform(put("/api/editReservation")
                         .contentType("application/json")
+                        .header("jwt_token", createJwt(new Users(2,"Test","Test","test@gmail.com","password",false, Set.of())))
                         .content(new ObjectMapper().writeValueAsString(reservation)))
                 .andExpect(status().isOk());
         Mockito.verify(reservationService, Mockito.times(1)).updateReservation(Mockito.any());
@@ -60,7 +79,8 @@ class ReservationControllerTest {
 
     @Test
     void deleteReservation() throws Exception {
-        this.mockMvc.perform(delete("/api/deleteReservation/1"))
+        this.mockMvc.perform(delete("/api/deleteReservation/1")
+                        .header("jwt_token", createJwt(new Users(2,"Test","Test","test@gmail.com","password",false, Set.of()))))
                 .andExpect(status().isOk());
         Mockito.verify(reservationService, Mockito.times(1)).deleteReservation(Mockito.anyInt());
     }
@@ -70,6 +90,7 @@ class ReservationControllerTest {
         EnterExitDto enterExitDto = new EnterExitDto();
         this.mockMvc.perform(put("/api/enter")
                         .contentType("application/json")
+                        .header("jwt_token", createJwt(new Users(2,"Test","Test","test@gmail.com","password",false, Set.of())))
                         .content(new ObjectMapper().writeValueAsString(enterExitDto)))
                 .andExpect(status().isOk());
         Mockito.verify(reservationService, Mockito.times(1)).enter(Mockito.any());
@@ -80,6 +101,7 @@ class ReservationControllerTest {
         EnterExitDto enterExitDto = new EnterExitDto();
         this.mockMvc.perform(put("/api/exit")
                         .contentType("application/json")
+                        .header("jwt_token", createJwt(new Users(2,"Test","Test","test@gmail.com","password",false, Set.of())))
                         .content(new ObjectMapper().writeValueAsString(enterExitDto)))
                 .andExpect(status().isOk());
         Mockito.verify(reservationService, Mockito.times(1)).exit(Mockito.any());
@@ -87,14 +109,16 @@ class ReservationControllerTest {
 
     @Test
     void getParkingViolations() throws Exception {
-        this.mockMvc.perform(get("/api/parkingViolations/emailTest"))
+        this.mockMvc.perform(get("/api/parkingViolations/emailTest")
+                        .header("jwt_token", createJwt(new Users(2,"Test","Test","test@gmail.com","password",false, Set.of()))))
                 .andExpect(status().isOk());
         Mockito.verify(reservationService, Mockito.times(1)).getAllDriverFines(Mockito.anyString());
     }
 
     @Test
     void getNrParkingViolations() throws Exception {
-        this.mockMvc.perform(get("/api/nrParkingViolations/emailTest"))
+        this.mockMvc.perform(get("/api/nrParkingViolations/emailTest")
+                        .header("jwt_token", createJwt(new Users(2,"Test","Test","test@gmail.com","password",false, Set.of()))))
                 .andExpect(status().isOk());
         Mockito.verify(reservationService, Mockito.times(1)).getNrOfParkingViolations(Mockito.any());
     }
@@ -104,33 +128,10 @@ class ReservationControllerTest {
         UsersDto users = new UsersDto(1,"NameTest","LastNameTest","emailTest@gmail.com",false, new String[]{"Driver"});
         this.mockMvc.perform(put("/api/updateSeenDriverFine")
                         .contentType("application/json")
+                        .header("jwt_token", createJwt(new Users(2,"Test","Test","test@gmail.com","password",false, Set.of())))
                         .content(new ObjectMapper().writeValueAsString(users)))
                 .andExpect(status().isOk());
         Mockito.verify(reservationService, Mockito.times(1)).updateSeenDriverFine(Mockito.anyString());
-
-    }
-
-    @Test
-    void getAllParkingViolations() throws Exception {
-        this.mockMvc.perform(get("/api/allParkingViolations"))
-                .andExpect(status().isOk());
-        Mockito.verify(reservationService, Mockito.times(1)).getAllDriversFines();
-    }
-
-    @Test
-    void getNrAllParkingViolations() throws Exception {
-        this.mockMvc.perform(get("/api/nrOfAllParkingViolations"))
-                .andExpect(status().isOk());
-        Mockito.verify(reservationService, Mockito.times(1)).getNrOfAllParkingViolations();
-    }
-
-    @Test
-    void updateSeenAdminFine() throws Exception {
-        this.mockMvc.perform(put("/api/updateSeenAdminFine")
-                        .contentType("application/json")
-                        .content(new ObjectMapper().writeValueAsString(null)))
-                .andExpect(status().isOk());
-        Mockito.verify(reservationService, Mockito.times(1)).updateSeenAdminFine();
 
     }
 }

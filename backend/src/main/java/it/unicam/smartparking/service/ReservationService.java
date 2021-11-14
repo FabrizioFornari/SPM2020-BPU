@@ -9,9 +9,11 @@ import it.unicam.smartparking.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -21,6 +23,9 @@ public class ReservationService {
     private ReservationRepository reservationRepository;
     @Autowired
     private FineRepository fineRepository;
+
+    @Autowired
+    private EntityManager em;
 
     public List<Reservation> getAllReservations() {
         return (List<Reservation>) reservationRepository.findAll();
@@ -123,7 +128,6 @@ public class ReservationService {
         List<Reservation> reservationList = reservationRepository.findByEmail(email);
 
         for (Reservation reservation:reservationList) {
-            Set<Fine> fineSet = new HashSet<>();
             if (reservation.getReservationFine().size() != 0){
                 for (Fine fine:reservation.getReservationFine()) {
 
@@ -141,7 +145,6 @@ public class ReservationService {
 
     public Set<ReservationAndFineDto> getAllDriversFines() {
         List<Reservation> reservationList = (List<Reservation>) reservationRepository.findAll();
-
         return getReservationAndFineDtos(reservationList);
     }
 
@@ -176,6 +179,23 @@ public class ReservationService {
                     }
                 }
             }
+        }
+    }
+
+    public void deleteDriversFines(Integer id) {
+        try {
+            fineRepository.deleteFineRelationships(id);
+        }catch (Exception exception){
+
+        }
+        fineRepository.deleteById(id);
+    }
+
+    public void updateDriverFine(Integer id, Integer cost) {
+        Optional<Fine> fine = fineRepository.findById(id);
+        if (fine.isPresent()) {
+            fine.get().setAmountOfFine(cost);
+            fineRepository.save(fine.get());
         }
     }
 }

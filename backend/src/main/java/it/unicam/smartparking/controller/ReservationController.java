@@ -75,19 +75,4 @@ public class ReservationController {
         return ResponseEntity.ok("OK");
     }
 
-    @GetMapping(value = "/allParkingViolations")
-    public ResponseEntity<?> getAllParkingViolations(){
-        return ResponseEntity.ok( reservationService.getAllDriversFines());
-    }
-
-    @GetMapping(value = "/nrOfAllParkingViolations")
-    public ResponseEntity<?> getNrAllParkingViolations(){
-        return ResponseEntity.ok(reservationService.getNrOfAllParkingViolations());
-    }
-
-    @PutMapping(value = "/updateSeenAdminFine")
-    public ResponseEntity<?> updateSeenAdminFine(){
-        reservationService.updateSeenAdminFine();
-        return ResponseEntity.ok("OK");
-    }
 }

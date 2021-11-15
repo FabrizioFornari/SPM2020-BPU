@@ -22,8 +22,6 @@ Postgresql
 
 **<h2>Applications</h2>**
 
->nodejs,
-![node](https://user-images.githubusercontent.com/75087166/141704176-9c1ac70d-d07a-4c98-88b7-50c2fa9e2b90.png)
 
 >intelij,
 ![download](https://user-images.githubusercontent.com/75087166/141704122-8aae12e8-2e52-48a5-a1bb-a3b09e5f6cda.jpg)
